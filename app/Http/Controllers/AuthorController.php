@@ -17,7 +17,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        return new AuthorCollection(Author::all()); // meme chose que le code commenté en dessous mais en passant par un "collection" qui formate le retour des données 
+        return new AuthorCollection(Author::orderBy('name')->paginate(10)); // meme chose que le code commenté en dessous mais en passant par un "collection" qui formate le retour des données 
         // $authors =Author::all();
         // return response()->json($authors, 200); // Paramètre = données et le code http de retour
     }
@@ -38,26 +38,38 @@ class AuthorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Author  $author
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Author $author)
+    public function show($id)
     {
-        return new AuthorResource($author);
+        $author = Author::find($id);
+        if($author){
+               return new AuthorResource($author);
+
+        }else{
+            return response()->json(['message'=>'Not found'], 404);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Author $author
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Author $author)
+    public function update(Request $request, $id)
     {
-        $updateAuthor = Author::updateAuthor($author,$request->all());
-        
-        return response()->json($updateAuthor, 200);
+        $author = Author::find($id);
+        if($author){
+            $updateAuthor = Author::updateAuthor($author, $request->all());
+            
+            return response()->json($updateAuthor, 200);
+        }else{
+            return response()->json(['message'=>'Not found'], 404);
+        }
+       
     }
 
     /**
@@ -66,9 +78,15 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Author $author)
-    {
-        $author->delete();
-        return response()->json('', 204);
+    public function destroy($id)
+    {   
+        $author = Author::find($id);
+        
+        if($author){
+            $author->delete();
+            return response()->json('', 204);
+        }else{
+            return response()->json(['message'=>'Not found'], 404);
+        }
     }
 }

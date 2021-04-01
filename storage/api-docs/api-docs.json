@@ -1,0 +1,169 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Demo Documentation",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "c.buisson@it-students.fr"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/books": {
+            "get": {
+                "tags": [
+                    "CRUD: Read Book"
+                ],
+                "summary": "Get list of all books in alphabetical order",
+                "description": "Returns list of all books",
+                "operationId": "getBooksList",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Search by title",
+                        "required": false
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter by genre Id",
+                        "required": false
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort books by: title | author_id | publication_year | pages_nb  ",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CRUD: Create book"
+                ],
+                "summary": "Store new book",
+                "description": "Store new book all field are required ",
+                "operationId": "store books",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "title max 100",
+                        "required": true
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description max 1000 ",
+                        "required": true
+                    },
+                    {
+                        "name": "author_id",
+                        "in": "query",
+                        "description": "id of the author",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "publication_year",
+                        "in": "query",
+                        "description": "publication year",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "pages_nb",
+                        "in": "query",
+                        "description": "number of pages",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "genres",
+                        "in": "query",
+                        "description": "genre id ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/books/{id}": {
+            "patch": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get project information",
+                "description": "Returns project data",
+                "operationId": "getProjectById",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Projects",
+            "description": "API Endpoints of Projects"
+        }
+    ],
+    "security": [
+        []
+    ]
+}

@@ -20,9 +20,8 @@ class Author extends Model
         $author->save();
         return $author;
     }
-    public static function updateAuthor($author, $data) // $data vient de request all() dans le controller 
-    {
-        
+    public static function updateAuthor($author, $data) 
+    { 
         $author->name = $data['name']; 
         
         $author->save();
